@@ -1,0 +1,12 @@
+thriller|9|Argo (2012)|            
+thriller|9|Argo (2012)                   # duplicate id & name -> skipped_duplicate
+adventure|10|Indiana Jones and the Kingdom of the Crystal Skull (2008)
+drama|11|Saving Private Ryan (1998)
+action|12x|John Wick: Chapter 3 – Parabellum (2019)   # non-numeric id -> skipped_malformed
+animation|13|The Hangover Part III (2013)
+documentary|14|Predator 2 (1990)
+documentary|15|Star Wars: Episode III – Revenge of the Sith (2005)
+sci fi|16|Thor: Ragnarok (2017)
+documentary|17|A Beautiful Mind (2001)
+romance||Bad Row                           # empty id -> skipped_malformed
+BAD LINE    

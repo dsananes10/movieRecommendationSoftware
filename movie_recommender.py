@@ -119,6 +119,7 @@ class Recommender:
         if not os.path.exists(path):
             print(f"Movies file not found: {path}")
             return
+        
 
         try:
             with open(path, "r", encoding="utf-8") as f:
@@ -129,6 +130,14 @@ class Recommender:
                         continue
                     parts = [p.strip() for p in line.split("|")]
                     if len(parts) != 3:
+                        self.load_stats["movies_skipped_malformed"] += 1
+                        continue
+
+                    if not all(parts):
+                        self.load_stats["movies_skipped_malformed"] += 1
+                        continue
+
+                    if len(line) > 2000:
                         self.load_stats["movies_skipped_malformed"] += 1
                         continue
 
@@ -154,6 +163,8 @@ class Recommender:
         except OSError as e:
             print(f"Error reading movies file: {e}")
 
+        
+
     def load_ratings(self, path: str) -> None:
         """
         Load ratings from file: "movie_name_with_year|rating|user_id".
@@ -165,6 +176,7 @@ class Recommender:
         if not os.path.exists(path):
             print(f"Ratings file not found: {path}")
             return
+        
 
         try:
             with open(path, "r", encoding="utf-8") as f:
@@ -173,8 +185,17 @@ class Recommender:
                     if not line:
                         self.load_stats["ratings_skipped_empty"] += 1
                         continue
+
                     parts = [p.strip() for p in line.split("|")]
                     if len(parts) != 3:
+                        self.load_stats["ratings_skipped_malformed"] += 1
+                        continue
+
+                    if not all(parts):
+                        self.load_stats["ratings_skipped_malformed"] += 1
+                        continue
+
+                    if len(line) > 2000:
                         self.load_stats["ratings_skipped_malformed"] += 1
                         continue
 
@@ -203,8 +224,10 @@ class Recommender:
 
                     self.ratings[key] = rating
                     self.load_stats["ratings_loaded"] += 1
+                    
         except OSError as e:
             print(f"Error reading ratings file: {e}")
+
 
     # ---------- Computation helpers ----------
 
